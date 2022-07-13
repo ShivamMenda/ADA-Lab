@@ -1,0 +1,7 @@
+set title 'fib'
+set xrange[1:10]
+set yrange[0:100]
+set xlabel "input size(n)"
+set ylabel "op count"
+set style line 10 linetype 1 linecolor rgb "red"
+plot 'fib.txt' using 1:2 title "All cases" with lines
