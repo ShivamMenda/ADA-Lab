@@ -1,26 +1,30 @@
 #include<stdio.h>
 #include<stdlib.h>
+int a[20][20],visited[20],n,acyclic=1;
 
-int a[20][20],visited[20],q[20],i,j,n,f=0,r=-1;
-
-void bfs(int v)
+void dfs(int v)
 {
+    int i;
+    visited[v]=1;
     for (i = 1; i <=n; i++)
     {
+        if (a[v][i] && visited[i])
+        {
+            acyclic=0;
+            printf("\n%d->%d",v,i);
+        }
+        
         if (a[v][i] && !visited[i])
         {
-            q[++r]=i;
-            visited[q[r]]=1;
-            printf("%d->%d\n",v,i);
+            printf("\n%d->%d",v,i);
+            dfs(i);
         }
+        
     }
-    if (r>=f)
-    {
-        bfs(q[f++]);
-    }  
+    
 }
 
-void connect()
+void connectandcyclic()
 {
     int count=0;
     for (int i = 1; i <=n; i++)
@@ -39,6 +43,15 @@ void connect()
     {
         printf("\nGraph is not connected");
     }
+    if (acyclic)
+    {
+        printf("\nGraph is acyclic");
+    }
+    else
+    {
+        printf("\nGraph is cyclic");
+    }
+
 }
 
 int main()
@@ -61,8 +74,8 @@ int main()
     }
     printf("enter the starting vertex:");
     scanf("%d",&start);
-    visited[start]=1;
-    bfs(start);
-    connect();
+    dfs(start);
+    printf("\n");
+    connectandcyclic();
     
 }
