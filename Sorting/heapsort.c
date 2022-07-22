@@ -54,7 +54,7 @@ int main()
     fp1=fopen("besth.txt","a");
     fp2=fopen("avgh.txt","a");
     fp3=fopen("worsth.txt","a");
-    for (n = 0; n <=25; n=n+5)
+    for (n = 10; n <=100; n=n+10)
     {
         for (i = 0; i < n; i++)
         {
