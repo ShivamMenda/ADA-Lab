@@ -28,7 +28,7 @@ void sort(int a[])
 int main()
 {
 	FILE *fp1,*fp2;
-	int *a;
+	int a[1000],b[1000];
 	system("rm bs_best.txt");
 	system("rm bs_worstavg.txt");
 	fp1=fopen("bs_best.txt","a");
@@ -37,30 +37,27 @@ int main()
 	int i;
 	for(n=100;n<1000;n=n+100)
 	{
-		a=(int *)malloc(n*sizeof(int));
 		i=0;
 		while(i!=n)
 		{
 			a[i]=n-i-1;
-			printf("%d\t",a[i]);
+			// printf("%d\t",a[i]);
 			i++;
 		}
 		sort(a);
 		fprintf(fp2,"%d\t%d\n",n,count);
 	}
 	fclose(fp2);
-	free(a);
 	for(n=100;n<1000;n=n+100)
 	{
-		a=(int *)malloc(n*sizeof(int));
 		i=0;
 		while(i!=n)
 		{
-			a[i]=i+1;
-			printf("%d\t",a[i]);
+			b[i]=i+1;
+			// printf("%d\t",b[i]);
 			i++;
 		}
-		sort(a);
+		sort(b);
 		fprintf(fp1,"%d\t%d\n",n,count);
 	}
 	fclose(fp1);

@@ -1,71 +1,65 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<time.h>
-int count;
-void insertion(int a[],int n)
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#define INITIAL 10
+#define FINAL 100
+#define INCRE 10
+int count = 0;
+
+void insertionsort(int *arr, int n)
 {
- count=0;
- int i,j,v;
- for(i=1;i<=n-1;i++)
- {
-  v=a[i];
-  j=i-1;
-  while(j>=0 && a[j]>v)
+  int i;
+  for (i = 1; i < n; i++)
   {
-    a[j+1]=a[j];
-    j--;
-    count++;
-  }
-  if(j==-1)
-  continue;
-  count++;
-  a[j+1]=v;
-  }
-}
-void insertmain(int ch)
-{
-  FILE *a;
-  int i,j,*arr;
-  srand(time(NULL));
-    if(ch==1)
-    a=fopen("ins_best.txt","a");
-    else if(ch==2)
-    a=fopen("ins_worst.txt","a");
-    else
-    a=fopen("ins_avg.txt","a");
-    for(i=10;i<100;i+=10)
+    int v = arr[i];
+    int j = i - 1;
+    while (j >= 0 && arr[j]>v)
     {
-      arr=(int *)malloc(sizeof(int));
-      if(ch==1)
-      {
-       for(j=0;j<i;j++)
-         arr[j]=j+1;
-      }
-      else if(ch==2)
-      {
-        for(j=0;j<i;j++)
-          arr[j]=i-j;
-      }
-      else
-      {
-        for(j=0;j<i;j++)
-        arr[j]=rand()%100;
-      }
-      insertion(arr,i);
-      fprintf(a,"%d\t%d\n",i,count);
+      count++;
+      // if (arr[j] < v)
+      //   break;
+      arr[j + 1] = arr[j];
+      j--;
     }
-    fclose(a);
+    arr[j + 1] = v;
   }
+  return;
+}
 void main()
 {
-  int ch;
-  printf("1.Best Case\n2.Worst Case\n3.Average Case\nEnter choice\n");
-  scanf("%d",&ch);
-  switch(ch)
+  int *arr, n, i;
+  FILE *fp1, *fp2, *fp3;
+  system("rm BEST_CASE_COUNT.txt");
+  system("rm AVERAGE_CASE_COUNT.txt");
+  system("rm WORST_CASE_COUNT.txt");
+
+  srand(time(NULL));
+  for (n = INITIAL; n <= FINAL; n += INCRE)
   {
-    case 1:
-    case 2:
-    case 3:insertmain(ch);break;
-    default:exit(1);
+    arr = (int *)malloc(n * sizeof(int));
+
+    count = 0;
+    for (i = 0; i < n; i++)
+      arr[i] = i + 1;
+    insertionsort(arr, n);
+    fp1 = fopen("best.txt", "a");
+    fprintf(fp1, "%d\t", n);
+    fprintf(fp1, "%d\n", count);
+    count = 0;
+
+    for (i = 0; i < n; i++)
+      arr[i] = rand() % n;
+    insertionsort(arr, n);
+    fp2 = fopen("avg.txt", "a");
+    fprintf(fp2, "%d\t", n);
+    fprintf(fp2, "%d\n", count);
+    count = 0;
+
+    for (i = 0; i < n; i++)
+      arr[i] =n-i+1;
+    insertionsort(arr, n);
+    fp3 = fopen("worst.txt", "a");
+    fprintf(fp3, "%d\t", n);
+    fprintf(fp3, "%d\n", count);
   }
-}  
+}
