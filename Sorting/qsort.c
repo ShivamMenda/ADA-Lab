@@ -68,7 +68,7 @@ void analysis( int ch)
     if (ch==2)
     {
       for (j=0;j<i;j++)
-        a[j]=i+j+10;
+        a[j]=j+1;
       fp=fopen("quickworst.txt","a");
     }
     else if (ch == 3)
