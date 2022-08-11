@@ -1,105 +1,84 @@
-// Analysis of Quick Sort Algorithm
+#include<stdio.h>
+#include<stdlib.h>
 
-#include <stdio.h>
-#include <stdlib.h>
-#define n 10
+int count = 0;
 
-int partition(int a[], int l, int h, int *count)
-{
-  int i=l+1;
-  int j=h,pivot=a[l];
-  while (i<=j)
-  {
-    while (i<=h)
-    {
-      *count = *count + 1;
-      if (a[j]<=pivot)
-        break;
-      j--;
-    }
-    if (i<j)
-    {
-      int temp=a[i];
-      a[i]=a[j];
-      a[j]=temp;
-      i++;
-      j--;
-    }
-    if ((i==j) && (a[j]==pivot))
-    {
-      *count = *count + 1;
-      return j;
-    }
-  }
-  if (a[j]!=a[l])
-  {
-    int temp=a[j];
-    a[j]=a[l];
-    a[l]=temp;
-  }
-  return j;
+void swap(int *a, int *b){
+    int temp = *a;
+    *a = *b;
+    *b = temp;
 }
 
-void quicksort(int a[], int l, int h, int *count)
-{
-  int s;
-  if (l<h)
-  {
-    s=partition(a,l,h,count);
-    quicksort(a,l,s-1,count);
-    quicksort(a,s+1,h,count);
-  }
+int partition(int arr[], int first, int last){
+    int i = first, j = last;
+    int p = i;
+
+    while ( i<j ){
+        while (arr[i]<=arr[p]){
+            ++i;
+            ++count;
+        }
+        while (arr[j]>arr[p]){
+            --j;
+            ++count;
+        }
+        if ( i<j )
+            swap(&arr[i], &arr[j]);
+    }
+    swap(&arr[p], &arr[j]);
+    return j;
 }
 
-void analysis( int ch)
-{
-  FILE *fp;
-  int *a,i,j,k;
-  int count,x=10;
-  for (i=10;i<=100;i+=10)
-  {
-    a=(int *)malloc(sizeof(int)*i);
-    if (ch==1)
-    {
-      for (j=0;j<i;j++)
-        a[j]=x;
-      fp=fopen("quickbest.txt","a");
+void divide(int arr[], int first, int last){
+    if (first < last){
+        int pi = partition(arr, first, last);
+
+        divide(arr, first, pi - 1);
+        divide(arr, pi + 1, last);
     }
-    if (ch==2)
-    {
-      for (j=0;j<i;j++)
-        a[j]=j+1;
-      fp=fopen("quickworst.txt","a");
-    }
-    else if (ch == 3)
-    {
-    	exit(0);
-    }
-    int l=0;
-    int h=i-1;
-    count=0;
-    printf("\n");
-    for (j = 0; j < i; j++)
-    printf("%d\t",a[j]);
-    quicksort(a,l,h,&count);
-    fprintf(fp,"%d\t%d\n",i,count);
-    printf("\n");
-    for (j = 0; j < i; j++)
-    printf("%d\t",a[j]);
-    fclose(fp);
-  }
 }
 
-void main()
-{
-  int ch;
-  for (;;)
-  {
-    printf("\n1. Best case\n2. Worst case\n3. Exit\nEnter your choice: ");
-    scanf("%d",&ch);
-    analysis(ch);
-  }
+void best(int arr[], int first, int last){
+    if ( first < last ){
+        int mid = (first+last)/2;
+
+        best(arr, first, mid - 1);
+        swap(&arr[first], &arr[mid]);
+        best(arr, mid + 1, last);
+    }
 }
 
+void main(){
+    FILE *a, *b, *w;
+    system("rm best.txt;    rm worst.txt;   rm avg.txt");
+    a = fopen("avg.txt", "a");
+    b = fopen("best.txt", "a");
+    w = fopen("worst.txt", "a");
 
+    for(int n = 10; n<=100; n+=10){
+        int arr[n];
 
+        // worst case
+        for(int i = 0; i<n; ++i)
+            arr[i] = n - i;
+        divide(arr, 0, n-1);
+        fprintf(w, "%d  %d\n", n, count);
+        count = 0;
+
+        // avg case
+        for(int i = 0; i<n/2; ++i)
+            arr[i] = rand()%100;
+        divide(arr, 0, n-1);
+        fprintf(a, "%d  %d\n", n, count);
+        count = 0;
+
+        // best case
+        best(arr, 0, n-1);
+        divide(arr, 0, n-1);
+        fprintf(b, "%d  %d\n", n, count);
+        count = 0;
+    }
+    fclose(a);  
+    fclose(b);  
+    fclose(w);
+}
