@@ -4,9 +4,8 @@
 #define INI 10
 #define MAX 100
 #define JUMP 10
-int countbest;
-int countavg;
-void Merge(int a[], int l, int m, int r, int type)
+int count;
+void Merge(int a[], int l, int m, int r)
 {
     int i, j, k;
     int n1 = m - l + 1;
@@ -21,6 +20,7 @@ void Merge(int a[], int l, int m, int r, int type)
     k = l;
     while (i < n1 && j < n2)
     {
+        count++;
         if (L[i] <= R[j])
         {
             a[k] = L[i];
@@ -31,11 +31,7 @@ void Merge(int a[], int l, int m, int r, int type)
             a[k] = R[j];
             j++;
         }
-        k++;
-        if (type == 1)
-            countbest++;
-        else
-            countavg++;
+        k++;    
     }
     while (i < n1)
     {
@@ -50,43 +46,57 @@ void Merge(int a[], int l, int m, int r, int type)
         k++;
     }
 }
-void MergeSort(int a[], int l, int r, int type)
+void MergeSort(int a[], int l, int r)
 {
     if (l < r)
     {
         int m = l + (r - l) / 2;
-        MergeSort(a, l, m, type);
-        MergeSort(a, m + 1, r, type);
-        Merge(a, l, m, r, type);
+        MergeSort(a, l, m);
+        MergeSort(a, m + 1, r);
+        Merge(a, l, m, r);
     }
 }
 int main()
 {
-    int n, *best, *avg;
-    FILE *bestms, *avgms;
+    int n, *arr;
+    FILE *bestms, *avgms,*worstms;
     system("rm bestms.txt");
-    system("rm avgworstms.txt");
+    system("rm avgms.txt");
+    system("rm worstms.txt");
     bestms = fopen("bestms.txt", "a");
-    avgms = fopen("avgworstms.txt", "a");
+    avgms = fopen("avgms.txt", "a");
+    worstms = fopen("worstms.txt", "a");
     for (n = INI; n <= MAX; n = n + JUMP)
     {
-        countbest = 0;
-        countavg = 0;
-        best = (int *)malloc(n * sizeof(int));
-        avg = (int *)malloc(n * sizeof(int));
+        arr = (int *)malloc(n * sizeof(int));
         srand(time(NULL));
+        count=0;
         for (int i = 0; i < n; i++)
         {
-            best[i] = i + 1;
-            avg[i] = rand() % 1000;
+            arr[i] = i + 1;
         }
-        MergeSort(best, 0, n - 1, 1);
-        MergeSort(avg, 0, n - 1, 0);
-        fprintf(bestms, "%d %d\n", n, countbest);
-        fprintf(avgms, "%d %d\n", n, countavg);
+        MergeSort(arr, 0, n - 1);
+        fprintf(bestms, "%d %d\n", n, count);
+
+        count=0;
+        for (int i = 0; i < n; i++)
+        {
+            arr[i] = rand()%1000;
+        }
+        MergeSort(arr, 0, n - 1);
+        fprintf(avgms, "%d %d\n", n, count);
+
+        count=0;
+        for (int i = 0; i < n; i++)
+        {
+            arr[i] = i<n/2? rand()%10+1 : rand()%10+2;
+        }
+        MergeSort(arr, 0, n - 1);
+        fprintf(worstms, "%d %d\n", n, count);
     }
     fclose(bestms);
     fclose(avgms);
+    fclose(worstms);
     return 0;
 }
 
