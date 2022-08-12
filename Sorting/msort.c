@@ -44,7 +44,7 @@ void MergeSort(int a[], int l, int r)
 }
 int main()
 {
-    int n, *arr;
+    int n, arr[1000];
     FILE *bestms, *avgms,*worstms;
     system("rm bestms.txt");
     system("rm avgms.txt");
@@ -54,7 +54,6 @@ int main()
     worstms = fopen("worstms.txt", "a");
     for (n = INI; n <= MAX; n = n + JUMP)
     {
-        arr = (int *)malloc(n * sizeof(int));
         srand(time(NULL));
         count=0;
         for (int i = 0; i < n; i++)
