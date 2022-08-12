@@ -38,7 +38,7 @@ int main(){
 		
 		//Best Case
 		count=0;
-		key = arr[(n-1)/2] = 9999;
+		key = arr[(n-1)/2];
 		binarySearch(arr,key,0,n-1);
 		fprintf(b,"%d\t%d\n",n,count);
 		
