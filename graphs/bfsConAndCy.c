@@ -20,7 +20,7 @@ void bfs(int v)
     }
     if (r>=f)
     {
-        visited[q[r]]=1;
+        visited[q[f]]=1;
         bfs(q[f++]);
     }  
 }
