@@ -15,12 +15,12 @@ int partition(int arr[], int first, int last){
 
     while ( i<j ){
         while (arr[i]<=arr[p]){
-            ++i;
-            ++count;
+            i++;
+            count++;
         }
         while (arr[j]>arr[p]){
-            --j;
-            ++count;
+            j--;
+            count++;
         }
         if ( i<j )
             swap(&arr[i], &arr[j]);
@@ -48,12 +48,12 @@ void best(int arr[], int first, int last){
     }
 }
 
-void main(){
+int main(){
     FILE *a, *b, *w;
-    system("rm best.txt;    rm worst.txt;   rm avg.txt");
-    a = fopen("avg.txt", "a");
-    b = fopen("best.txt", "a");
-    w = fopen("worst.txt", "a");
+    system("rm quickbest.txt;    rm quickworst.txt;   rm quickavg.txt");
+    a = fopen("quickavg.txt", "a");
+    b = fopen("quickbest.txt", "a");
+    w = fopen("quickworst.txt", "a");
 
     for(int n = 10; n<=100; n+=10){
         int arr[n];

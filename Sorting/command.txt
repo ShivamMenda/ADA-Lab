@@ -4,5 +4,5 @@ set yrange[40:5000]
 set xlabel "input size(n)"
 set ylabel "op count"
 set style line 10 linetype 1 linecolor rgb "red"
-plot 'in_best.txt' using 1:2 title "best" with lines,'in_avg.txt' using 1:2 title "avg" with lines,'in_worst.txt' using 1:2 title "worst" with lines
+plot 'quickbest.txt' using 1:2 title "best" with lines,'quickavg.txt' using 1:2 title "avg" with lines,'quickworst.txt' using 1:2 title "worst" with lines
 
