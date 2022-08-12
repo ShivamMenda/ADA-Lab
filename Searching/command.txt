@@ -1,8 +1,8 @@
 set title 'PROGRAM NAME'
-set xrange[0:100]
-set yrange[0:100]
+set xrange[10:100]
+set yrange[0:10]
 set xlabel "input size(n)"
 set ylabel "op count"
 set style line 10 linetype 1 linecolor rgb "red"
-plot 'BEST_CASE.txt' using 1:2 title "best" with lines,'AVERAGE_CASE.txt' using 1:2 title "avg" with lines,'WORST_CASE.txt' using 1:2 title "worst" with lines
+plot 'l_best.txt' using 1:2 title "best" with lines,'l_avg.txt' using 1:2 title "avg" with lines,'l_worst.txt' using 1:2 title "worst" with lines
 

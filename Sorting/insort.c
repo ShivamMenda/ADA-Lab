@@ -1,23 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#define INITIAL 10
-#define FINAL 100
-#define INCRE 10
 int count = 0;
 
-void insertionsort(int *arr, int n)
+void insertionsort(int arr[], int n,int isBest)
 {
-  int i;
+  int i,j;
   for (i = 1; i < n; i++)
   {
     int v = arr[i];
     int j = i - 1;
+    if (isBest==1)
+    {
+      count++;
+    }
+    
     while (j >= 0 && arr[j]>v)
     {
       count++;
-      // if (arr[j] < v)
-      //   break;
       arr[j + 1] = arr[j];
       j--;
     }
@@ -25,40 +25,38 @@ void insertionsort(int *arr, int n)
   }
   return;
 }
-void main()
+int main()
 {
-  int *arr, n, i;
+  int arr[100], n, i;
   FILE *fp1, *fp2, *fp3;
-  system("rm BEST_CASE_COUNT.txt");
-  system("rm AVERAGE_CASE_COUNT.txt");
-  system("rm WORST_CASE_COUNT.txt");
+  system("rm in_best.txt");
+  system("rm in_avg.txt");
+  system("rm in_worst.txt");
 
   srand(time(NULL));
-  for (n = INITIAL; n <= FINAL; n += INCRE)
+  for (n = 10; n <= 100; n += 10)
   {
-    arr = (int *)malloc(n * sizeof(int));
-
     count = 0;
     for (i = 0; i < n; i++)
-      arr[i] = i + 1;
-    insertionsort(arr, n);
-    fp1 = fopen("best.txt", "a");
+      arr[i] = i ;
+    insertionsort(arr, n,1);
+    fp1 = fopen("in_best.txt", "a");
     fprintf(fp1, "%d\t", n);
     fprintf(fp1, "%d\n", count);
     count = 0;
 
     for (i = 0; i < n; i++)
       arr[i] = rand() % n;
-    insertionsort(arr, n);
-    fp2 = fopen("avg.txt", "a");
+    insertionsort(arr, n,0);
+    fp2 = fopen("in_avg.txt", "a");
     fprintf(fp2, "%d\t", n);
     fprintf(fp2, "%d\n", count);
     count = 0;
 
     for (i = 0; i < n; i++)
       arr[i] =n-i+1;
-    insertionsort(arr, n);
-    fp3 = fopen("worst.txt", "a");
+    insertionsort(arr, n,0);
+    fp3 = fopen("in_worst.txt", "a");
     fprintf(fp3, "%d\t", n);
     fprintf(fp3, "%d\n", count);
   }
