@@ -5,9 +5,9 @@
 #define INCRE 10
 int count = 0;
 
-int naivestring(int *text, int *pattern, int n, int m)
+int naivestring(int text[], int pattern[], int n, int m)
 {
-    int i, j, pos;
+    int i, j;
     for (i = 0; i <= (n - m); i++)
     {
         j = 0;
@@ -28,14 +28,13 @@ int naivestring(int *text, int *pattern, int n, int m)
 
 void main()
 {
-    int *text, pattern[4], n, i, pos;
+    int text[100], pattern[4], n, i, pos;
     FILE *fp1, *fp2, *fp3;
-    system("rm BEST_CASE_COUNT.txt");
-    system("rm AVERAGE_CASE_COUNT.txt");
-    system("rm WORST_CASE_COUNT.txt");
+    system("rm BEST_CASE.txt");
+    system("rm AVERAGE_CASE.txt");
+    system("rm WORST_CASE.txt");
     for (n = INITIAL; n <= FINAL; n += INCRE)
     {
-        text = (int *)malloc(n * sizeof(int));
         for (i = 0; i < (n - 1); i++)
         {
             text[i] = 0;
@@ -47,7 +46,7 @@ void main()
             pattern[i] = 0;
         }
         pos = naivestring(text, pattern, n, 4);
-        fp1 = fopen("BEST_CASE_COUNT.txt", "a");
+        fp1 = fopen("BEST_CASE.txt", "a");
         fprintf(fp1, "%d\t", n);
         fprintf(fp1, " %d\n", count);
         count = 0;
@@ -55,7 +54,7 @@ void main()
         // For Worst Case
         pattern[3] = 1;
         pos = naivestring(text, pattern, n, 4);
-        fp2 = fopen("WORST_CASE_COUNT.txt", "a");
+        fp2 = fopen("WORST_CASE.txt", "a");
         fprintf(fp2, "%d\t", n);
         fprintf(fp2, " %d\n", count);
         count = 0;
@@ -66,7 +65,7 @@ void main()
             pattern[i] = rand() % 2;
         }
         pos = naivestring(text, pattern, n, 4);
-        fp3 = fopen("AVERAGE_CASE_COUNT.txt", "a");
+        fp3 = fopen("AVERAGE_CASE.txt", "a");
         fprintf(fp3, "%d\t", n);
         fprintf(fp3, " %d\n", count);
         count = 0;
