@@ -5,46 +5,32 @@
 #define MAX 100
 #define JUMP 10
 int count;
-void Merge(int a[], int l, int m, int r)
+void Merge(int arr[], int l, int m, int r)
 {
-    int i, j, k;
-    int n1 = m - l + 1;
-    int n2 = r - m;
-    int L[n1], R[n2];
-    for (i = 0; i < n1; i++)
-        L[i] = a[l + i];
-    for (j = 0; j < n2; j++)
-        R[j] = a[m + 1 + j];
-    i = 0;
-    j = 0;
-    k = l;
-    while (i < n1 && j < n2)
-    {
-        count++;
-        if (L[i] <= R[j])
-        {
-            a[k] = L[i];
-            i++;
-        }
-        else
-        {
-            a[k] = R[j];
-            j++;
-        }
-        k++;    
-    }
-    while (i < n1)
-    {
-        a[k] = L[i];
-        i++;
-        k++;
-    }
-    while (j < n2)
-    {
-        a[k] = R[j];
-        j++;
-        k++;
-    }
+    int i,j,k;
+	int n1 = m-l+1;
+	int n2 = r-m;
+	int arr1[n1], arr2[n2];
+	
+	for(i=0;i<n1;i++)
+		arr1[i] = arr[l+i];
+	for (i=0;i<n2;i++)
+		arr2[i] = arr[m+i+1];
+		
+	i=0; j=0; k=l;
+		
+	while(i<n1 && j<n2){
+		count++;
+		if (arr1[i] <= arr2[j])
+			arr[k++] = arr1[i++];
+		else 
+			arr[k++] = arr2[j++];
+	}
+	
+	while(i<n1)
+		arr[k++] = arr1[i++];
+	while(j<n2)
+		arr[k++] = arr2[j++];
 }
 void MergeSort(int a[], int l, int r)
 {
